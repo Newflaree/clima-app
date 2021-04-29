@@ -68,13 +68,13 @@ const readInput = async( message ) => {
   return desc;
 }
 
-const listDeleteTasks = async( tasks = [] ) => {
-  const choices = tasks.map( ( task, i ) => {
+const listPlaces = async( places = [] ) => {
+  const choices = places.map( ( place, i ) => {
     const idx = `${i + 1}.`.green;
 
     return {
-      value: task.id,
-      name:  `${ idx } ${ task.desc }`
+      value: place.id,
+      name:  `${ idx } ${ place.name }`
     }
   });
 
@@ -87,7 +87,7 @@ const listDeleteTasks = async( tasks = [] ) => {
     {
       type: 'list',
       name: 'id',
-      message: 'Borrar',
+      message: 'Seleccione lugar:',
       choices
     }
   ]
@@ -109,14 +109,14 @@ const confirmed = async( message ) => {
   return ok;
 }   
 
-const showChecklistList = async( tasks = [] ) => {
-  const choices = tasks.map( ( task, i ) => {
+const showChecklistList = async( places = [] ) => {
+  const choices = places.map( ( place, i ) => {
     const idx = `${i + 1}.`.green;
 
     return {
-      value: task.id,
-      name:  `${ idx } ${ task.desc }`,
-      checked: ( task.completadoEn ) ? true : false
+      value: place.id,
+      name:  `${ idx } ${ place.desc }`,
+      checked: ( place.completadoEn ) ? true : false
     }
   });
 
@@ -138,7 +138,7 @@ const showChecklistList = async( tasks = [] ) => {
 module.exports = {
   confirmed,
   inquirerMenu,
-  listDeleteTasks,
+  listPlaces,
   pause,
   readInput,
   showChecklistList
