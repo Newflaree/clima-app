@@ -1,4 +1,4 @@
-const { leerInput, inquirerMenu, pausa } = require( './helpers/inquirer.helper' );
+const { readInput, inquirerMenu, pause } = require( './helpers/inquirer.helper' );
 const Searches = require( './models/searches.model' );
 
 const main = async() => {
@@ -11,7 +11,7 @@ const main = async() => {
     switch ( opt ) {
       case 1:
         // Show message
-        const place = await leerInput( 'Ciudad: ' );
+        const place = await readInput( 'Ciudad: ' );
         console.log( place )
         
         // Search the places
@@ -39,7 +39,7 @@ const main = async() => {
 
     }
 
-    if ( opt !== 0 ) await pausa();
+    if ( opt !== 0 ) await pause();
   } while ( opt !== 0 );
 }
 
