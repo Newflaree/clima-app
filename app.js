@@ -32,15 +32,17 @@ const main = async() => {
         const selectedPlace = places.find( l => l.id === selectedId );
         
         // Weather
+        const { temp, min, max, desc } = await searches.weatherPlace( selectedPlace.lat, selectedPlace.lng );
         
         // Show results
         console.log( '\nInformación de la ciudad\n'.green );
-        console.log( 'Ciudad:', selectedPlace.name );
+        console.log( 'Ciudad:', selectedPlace.name.green );
         console.log( 'Lat:', selectedPlace.lat );
         console.log( 'Lng:', selectedPlace.lng );
-        console.log( 'Temperatura:' );
-        console.log( 'Mínima:' );
-        console.log( 'Máxima:' );
+        console.log( 'Temperatura:', temp );
+        console.log( 'Mínima:', min );
+        console.log( 'Máxima:', max );
+        console.log( 'Cómo está el clima:', desc.green );
         
         break;
 
