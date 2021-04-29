@@ -7,10 +7,23 @@ class Searches {
     // TODO: leer DB si existe
   }
 
+  get paramsMapbox() {
+    return {
+      'access_token': process.env.MAPBOX_KEY,
+      'limit': 5,
+      'language': 'es'
+    }
+  }
+
   async city( place = '' ) {
     try {
       // Http request
-      const resp = await axios.get( 'https://api.mapbox.com/geocoding/v5/mapbox.places/Valdivia.json?access_token=pk.eyJ1IjoibmV3ZmxhcmUiLCJhIjoiY2tvMGRtdWRiMDdvdDJvbXk1azV4cmQ2ZiJ9.6wjFGqhQ_P67SZmK2etEwg&limit=5&language=es' );
+      const intance = axios.create({
+        baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${ place }.json`,
+        params: this.paramsMapbox 
+      }); 
+
+      const resp = await intance.get();
       console.log( resp.data );
 
       return [];
