@@ -29,12 +29,18 @@ const main = async() => {
         
         // Select the place
         const selectedId = await listPlaces( places );
+        if ( selectedId === '0' ) continue;
+
         const selectedPlace = places.find( l => l.id === selectedId );
+
+        // Save to DB
+        searches.addHistory( selectedPlace.name );
         
         // Weather
         const { temp, min, max, desc } = await searches.weatherPlace( selectedPlace.lat, selectedPlace.lng );
         
         // Show results
+        console.clear();
         console.log( '\nInformación de la ciudad\n'.green );
         console.log( 'Ciudad:', selectedPlace.name.green );
         console.log( 'Lat:', selectedPlace.lat );
@@ -47,9 +53,11 @@ const main = async() => {
         break;
 
       case 2:
-        break;
+        searches.capitalizedHistory.forEach( ( place, i ) => {
+          const idx = `${ i + 1 }.`.green;
+          console.log( `${ idx } ${ place }` );
+        });
 
-      case 0:
         break;
 
     }

@@ -1,10 +1,22 @@
+const fs = require( 'fs' );
+
 const axios = require( 'axios' );
 
 class Searches {
-  history = [ 'Valdivia', 'Orlando', 'Barcelona' ];
+  history = [];
+  dbPath = './db/database.json';
 
   constructor() {
-    // TODO: leer DB si existe
+    this.readDB();
+  }
+
+  get capitalizedHistory() {
+    return this.history.map( place => {
+      let words = place.split( ' ' );
+      words = words.map( p => p[0].toUpperCase() + p.substring(1) );
+
+      return words.join( ' ' );
+    });
   }
 
   get paramsMapbox() {
@@ -68,6 +80,38 @@ class Searches {
     }
   }
 
+  addHistory( place = '' ) {
+    if ( this.history.includes( place.toLocaleLowerCase() ) ) {
+      return;
+    }
+
+    this.history = this.history.splice( 0, 5 );
+
+    this.history.unshift( place.toLocaleLowerCase() ); 
+
+    // Save to DB
+    this.writeDB();
+
+  }
+
+  writeDB() {
+    const payload = {
+      history: this.history
+    };
+
+    fs.writeFileSync( this.dbPath, JSON.stringify( payload ) );
+  }
+
+  readDB() {
+    if ( !fs.existsSync( this.dbPath ) ) return;
+
+    const info = fs.readFileSync( this.dbPath, { encoding: 'utf-8' } );
+    const data = JSON.parse( info );
+
+    this.history = data.history;
+  }
+
 }
+
 
 module.exports = Searches;
